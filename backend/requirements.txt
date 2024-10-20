@@ -1,0 +1,12 @@
+flask
+tensorflow
+pillow
+pymongo
+numpy
+python-dotenv
+keras
+matplotlib
+flask-cors
+tensorflow-datasets
+seaborn
+scikit-learn

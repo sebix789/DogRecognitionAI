@@ -3,6 +3,28 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Virtual environment
+venv/
+env/
+backend/venv/
+
+# Model Files
+*.keras
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+
+# VS Code settings
+.vscode/
+
 # User-specific files
 *.rsuser
 *.suo

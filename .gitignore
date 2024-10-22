@@ -22,6 +22,9 @@ __pycache__/
 # Environment variables
 .env
 
+# Temp files
+temp/
+
 # VS Code settings
 .vscode/
 

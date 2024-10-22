@@ -46,7 +46,7 @@ def create_embedding_model(pretrained_model):
     inputs = tf.keras.Input(shape=(224, 224, 3))
     
     embeddings = base_model(inputs)
-    normalized_embeddings = tf.keras.layers.Lambda(lambda x: tf.math.l2_normalize(x, axis=1))(embeddings)
+    normalized_embeddings = tf.keras.layers.LayerNormalization(axis=1)(embeddings)
     embedding_model = tf.keras.Model(inputs, normalized_embeddings)
 
     return embedding_model
@@ -63,9 +63,10 @@ def build_siamese_network(embedding_model):
     embedding_b = embedding_model(input_b)
     
     # Calculate disstance between embeddings
-    distance = tf.keras.layers.Lambda(lambda tensors: tf.math.l2_normalize(tensors[0] - tensors[1], axis=1))([embedding_a, embedding_b])
+    distance = tf.keras.layers.Subtract()([embedding_a, embedding_b])
+    normalized_distance = tf.keras.layers.LayerNormalization(axis=1)(distance)
     
-    outputs = tf.keras.layers.Dense(1, activation='sigmoid')(distance)
+    outputs = tf.keras.layers.Dense(1, activation='sigmoid')(normalized_distance)
     
     siamese_model = tf.keras.Model([input_a, input_b], outputs)
     siamese_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
@@ -234,6 +235,18 @@ def evaluate_model(model, test_data, test_labels):
     plt.title('Receiver Operating Characteristic (ROC) Curve')
     plt.legend(loc="lower right")
     plt.show()
+    
+
+
+def load_model():
+    print("Load existing model...") 
+    model_path = os.path.join(os.path.dirname(__file__), 'dog_faceid_model.keras')
+    print(f"Model path: {model_path}")
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f"The model file {model_path} does not exist.")
+    
+    model = tf.keras.models.load_model(model_path)
+    return model
     
     
 if __name__ == '__main__':

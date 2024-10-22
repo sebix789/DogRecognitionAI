@@ -10,3 +10,4 @@ flask-cors
 tensorflow-datasets
 seaborn
 scikit-learn
+python-dotenv

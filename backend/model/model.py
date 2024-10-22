@@ -7,12 +7,15 @@ import seaborn as sns
 import numpy as np
 from sklearn.metrics import roc_curve, auc, classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 # Input paths
-model_directory = '/kaggle/input/dogs-faceid-model/siamese_recognition_model.keras'
-data_directory = '/kaggle/input/habana-dataset/habana/'
-output_directory = '/kaggle/working/dog_faceid_model.keras'
+model_directory = os.getenv('MODEL_INPUT')
+data_directory = os.getenv('DATA_INPUT')
+output_directory = os.getenv('MODEL_OUTPUT')
 
 
 # Load the model
@@ -240,7 +243,7 @@ def evaluate_model(model, test_data, test_labels):
 
 def load_model():
     print("Load existing model...") 
-    model_path = os.path.join(os.path.dirname(__file__), 'dog_faceid_model.keras')
+    model_path = os.getenv('MODEL_CURRENT')
     print(f"Model path: {model_path}")
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"The model file {model_path} does not exist.")

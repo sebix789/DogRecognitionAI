@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Button, TextInput, StyleSheet, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
+import { API_URL } from "@env";
 
 type ImagePickerAsset = {
   uri: string;
@@ -126,13 +127,9 @@ const Prediction = () => {
     });
 
     try {
-      const response = await axios.post(
-        "http://192.168.0.4:5000/calibrate",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const response = await axios.post(`${API_URL}/calibrate`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (response.status === 200) {
         setIsCalibrated(true);
@@ -177,13 +174,9 @@ const Prediction = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://192.168.0.4:5000/predict",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const response = await axios.post(`${API_URL}/predict`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       const distance = response.data.distance;
       console.log(distance);
 
